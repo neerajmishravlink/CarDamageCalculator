@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - REACT_APP_API_URL=http://localhost:8000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - '8000:8000'
+    depends_on:
+      - minio
+      - maildev
+    environment:
+      - SECRET_KEY=supersecretkey
+      - MAGIC_SALT=magic-link-salt
+      - JWT_ALGORITHM=HS256
+      - JWT_EXPIRE_MINUTES=60
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - MINIO_BUCKET=uploads
+      - MAILDEV_HOST=maildev
+      - MAILDEV_PORT=1025
+      - ORIGIN=http://localhost:3000
+      - BASE_URL=http://localhost:8000
+
+  minio:
+    image: minio/minio:latest
+    command: server /data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - minio-data:/data
+
+  maildev:
+    image: maildev/maildev:latest
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+
+volumes:
+  minio-data:

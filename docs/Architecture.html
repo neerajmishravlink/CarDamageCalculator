@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Architecture — CarDamageCalculator</title>
+  <style>
+    body{font-family: system-ui,Segoe UI,Roboto,Arial;max-width:900px;margin:32px auto;color:#111}
+    pre, code{background:#f5f5f5;padding:8px;border-radius:6px}
+    table{border-collapse:collapse;width:100%;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:8px;text-align:left}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true,theme:'default'});</script>
+</head>
+<body>
+  <h1>Architecture Overview</h1>
+
+  <div class="mermaid">
+graph LR
+    subgraph Frontend
+        UI[React SPA] -->|HTTPS| API[FastAPI Backend]
+    end
+    subgraph Backend
+        API --> Auth[JWT Auth Middleware]
+        API --> Loc[Nominatim Wrapper]
+        API --> Estimate[Estimate Service]
+        Estimate --> Model[YOLO‑v5 + SAM + Llama‑cpp]
+        Model --> MinIO[MinIO Object Store]
+        MinIO --> Model
+        Auth --> MailDev[MailDev (SMTP mock)]
+    end
+    subgraph Infra
+        Docker[Docker‑Compose] --> Frontend
+        Docker --> Backend
+        Docker --> MinIO
+        Docker --> MailDev
+    end
+  </div>
+
+  <h2>Diagram (PNG)</h2>
+  <p><img src="Architecture.png" alt="Architecture diagram" style="max-width:100%;height:auto;border:1px solid #ddd;padding:6px;border-radius:6px"></p>
+
+  <h2>Components</h2>
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Language / Tool</th><th>Role</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>React SPA</td><td>JavaScript (Create‑React‑App)</td><td>Chat UI, image upload, geolocation</td></tr>
+      <tr><td>FastAPI</td><td>Python 3.11</td><td>REST API, auth, endpoint orchestration</td></tr>
+      <tr><td>JWT + Magic‑link</td><td>itsdangerous + maildev</td><td>Password‑less verification</td></tr>
+      <tr><td>YOLO‑v5 + Segment Anything</td><td>PyTorch</td><td>Damage detection & segmentation</td></tr>
+      <tr><td>Llama‑cpp (7B)</td><td>C++ inference</td><td>Textual cost estimation</td></tr>
+      <tr><td>MinIO</td><td>S3‑compatible storage</td><td>Temporary image bucket, auto‑expire</td></tr>
+      <tr><td>Nominatim</td><td>Public OSM API</td><td>Reverse/forward geocoding</td></tr>
+      <tr><td>Docker‑Compose</td><td>YAML</td><td>One‑click local dev stack</td></tr>
+      <tr><td>MailDev</td><td>Node</td><td>Local SMTP server for demo emails</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Data Flow</h2>
+  <ol>
+    <li>UI posts <code>/auth/request</code> → Backend emails magic‑link.</li>
+    <li>User clicks link → token stored in browser (JWT).</li>
+    <li>UI calls <code>/location</code> (browser geolocation or manual address).</li>
+    <li>UI uploads images via <code>/estimate</code> (multipart/form‑data).</li>
+    <li>Backend stores images to MinIO (TTL 5&nbsp;min), runs Model, deletes files.</li>
+    <li>Model returns damage list → cost estimator → JSON response.</li>
+    <li>UI renders chat message with estimate.</li>
+  </ol>
+
+  <h2>Security</h2>
+  <ul>
+    <li>All internal traffic stays inside Docker network.</li>
+    <li>External ports: 3000 (frontend), 8000 (backend), 1080 (MailDev UI).</li>
+    <li>MinIO bucket policy restricts to service account.</li>
+    <li>JWT secret in <code>.env</code>; never committed.</li>
+    <li>Images deleted after inference to protect privacy.</li>
+  </ul>
+
+  <hr>
+  <p>Generated viewer for <strong>Architecture.md</strong>. Use a browser to open this file locally for rendering.</p>
+</body>
+</html>

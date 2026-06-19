@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Product Requirements Document — CarDamageCalculator</title>
+  <style>
+    body{font-family: system-ui,Segoe UI,Roboto,Arial;max-width:900px;margin:32px auto;color:#111}
+    pre, code{background:#f5f5f5;padding:8px;border-radius:6px}
+    table{border-collapse:collapse;width:100%;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:8px;text-align:left}
+  </style>
+</head>
+<body>
+  <h1>Product Requirements Document (PRD)</h1>
+
+  <h2>Overview</h2>
+  <p>A web‑based chat application that lets a car owner obtain an AI‑generated repair estimate from photos of a damaged vehicle.</p>
+
+  <h2>Personas</h2>
+  <ul>
+    <li><strong>Owner</strong> – non‑technical, wants quick estimate and location‑based pricing.</li>
+    <li><strong>Estimator</strong> – team member who may review AI output (future extension).</li>
+  </ul>
+
+  <h2>User Journey</h2>
+  <ol>
+    <li>Owner opens URL, enters email → receives magic‑link.</li>
+    <li>Clicks link → session token stored in browser.</li>
+    <li>Chat bot greets, asks for location (browser geolocation or address input).</li>
+    <li>Owner shares location.</li>
+    <li>Bot asks for car images.</li>
+    <li>Owner uploads images.</li>
+    <li>Backend runs damage detection + cost model, returns JSON:</li>
+  </ol>
+  <pre>{"damage": ["front bumper", "left door"], "cost": "$1,200"}</pre>
+  <p>8. Bot displays summary in chat.</p>
+
+  <h2>Success Metrics</h2>
+  <ul>
+    <li>80 % of users receive an estimate within 30 seconds.</li>
+    <li>0 % storage of images after processing.</li>
+    <li>No external paid API calls.</li>
+  </ul>
+
+  <h2>Constraints</h2>
+  <ul>
+    <li>Use only free/open‑source libraries.</li>
+    <li>Must run on Windows with Docker.</li>
+    <li>Team of 4, limited to ~2 weeks.</li>
+  </ul>
+
+  <h2>Acceptance Criteria</h2>
+  <ul>
+    <li>[ ] Email magic‑link verification works (maildev for demo).</li>
+    <li>[ ] Auth middleware rejects unauthenticated calls.</li>
+    <li>[ ] <code>/estimate</code> accepts multipart image, returns damage list & cost.</li>
+    <li>[ ] Front‑end shows chat flow with location and image prompts.</li>
+    <li>[ ] All docs version‑controlled in repo.</li>
+  </ul>
+
+  <hr>
+  <p><a href="index.html">Back to docs index</a></p>
+</body>
+</html>
