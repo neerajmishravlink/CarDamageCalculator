@@ -1,0 +1,19 @@
+graph LR
+    subgraph Frontend
+        UI[React SPA] -->|HTTPS| API[FastAPI Backend]
+    end
+    subgraph Backend
+        API --> Auth[JWT Auth Middleware]
+        API --> Loc[Nominatim Wrapper]
+        API --> Estimate[Estimate Service]
+        Estimate --> Model[YOLO‑v5 + SAM + Llama‑cpp]
+        Model --> MinIO[MinIO Object Store]
+        MinIO --> Model
+        Auth --> MailDev[MailDev (SMTP mock)]
+    end
+    subgraph Infra
+        Docker[Docker‑Compose] --> Frontend
+        Docker --> Backend
+        Docker --> MinIO
+        Docker --> MailDev
+    end

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Requirements — CarDamageCalculator</title>
+  <style>
+    body{font-family: system-ui,Segoe UI,Roboto,Arial;max-width:900px;margin:32px auto;color:#111}
+    pre, code{background:#f5f5f5;padding:8px;border-radius:6px}
+    table{border-collapse:collapse;width:100%;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:8px;text-align:left}
+  </style>
+</head>
+<body>
+  <h1>Requirements</h1>
+
+  <h2>Functional</h2>
+  <ul>
+    <li>User registration via email magic‑link verification.</li>
+    <li>Authenticated chat session where the user can:
+      <ul>
+        <li>Share location (auto‑filled from browser geolocation or manual address entry).</li>
+        <li>Upload one or more car images.</li>
+        <li>Receive a damage detection summary and a cost estimate.</li>
+      </ul>
+    </li>
+    <li>Backend must validate the user token before processing any request.</li>
+    <li>AI model must run locally, no external paid API calls.</li>
+  </ul>
+
+  <h2>Non‑functional</h2>
+  <ul>
+    <li>All components must be free/open‑source.</li>
+    <li>System should run on a single Docker‑Compose stack on Windows (Git‑Bash).</li>
+    <li>Latency for inference &lt; 5 seconds for a single image on a typical laptop GPU/CPU.</li>
+    <li>Data privacy: images stored only temporarily in MinIO and deleted after processing.</li>
+  </ul>
+
+  <hr>
+  <p>Generated viewer for <strong>Requirements.md</strong>. Open this file in a browser to view.</p>
+</body>
+</html>

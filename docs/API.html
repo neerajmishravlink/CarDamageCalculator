@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>API Specification — CarDamageCalculator</title>
+  <style>
+    body{font-family: system-ui,Segoe UI,Roboto,Arial;max-width:900px;margin:32px auto;color:#111}
+    pre, code{background:#f5f5f5;padding:8px;border-radius:6px}
+    table{border-collapse:collapse;width:100%;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:8px;text-align:left}
+  </style>
+</head>
+<body>
+  <h1>API Specification</h1>
+  <p>All endpoints are served by FastAPI (<code>/api</code> root). JSON responses, proper HTTP status codes.</p>
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Path</th><th>Auth</th><th>Request Body</th><th>Response</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>POST</strong></td><td><code>/auth/request</code></td><td>❌</td><td><code>{ "email": "user@example.com" }</code></td><td>202 Accepted – email sent (MailDev view)</td></tr>
+      <tr><td><strong>GET</strong></td><td><code>/auth/verify?token=...</code></td><td>❌</td><td>–</td><td>200 OK – <code>{ "access_token": "jwt..." }</code></td></tr>
+      <tr><td><strong>GET</strong></td><td><code>/location</code></td><td>✅</td><td>Query params <code>lat</code>, <code>lon</code> (optional). If omitted, backend returns <code>{ "city": "...", "region": "..." }</code> using IP fallback.</td><td>200 OK</td></tr>
+      <tr><td><strong>POST</strong></td><td><code>/estimate</code></td><td>✅</td><td><code>multipart/form-data</code> with one or more <code>images</code> files.</td><td>200 OK – <code>{ "damage": ["front bumper", "left door"], "cost": "$1,200" }</code></td></tr>
+      <tr><td><strong>GET</strong></td><td><code>/openapi.json</code></td><td>❌</td><td>–</td><td>OpenAPI schema</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Error format</h2>
+  <pre>{ "detail": "error description" }</pre>
+
+  <h2>Rate limiting</h2>
+  <ul>
+    <li>30 requests/min per IP (implemented via <code>slowapi</code>).</li>
+    <li>Exceeding returns <code>429 Too Many Requests</code>.</li>
+  </ul>
+
+  <hr>
+  <p><a href="index.html">Back to docs index</a></p>
+</body>
+</html>

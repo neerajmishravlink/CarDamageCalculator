@@ -1,0 +1,249 @@
+:root {
+  color-scheme: dark;
+  color: #111827;
+  background: #f7f9fb;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.App {
+  padding: 32px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.hero-panel {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, #4f46e5 0%, #0ea5e9 100%);
+  border-radius: 24px;
+  color: white;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.15);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.hero-panel h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.6vw, 3.6rem);
+  line-height: 1.05;
+}
+
+.hero-panel p {
+  margin: 18px 0 0;
+  max-width: 620px;
+  opacity: 0.92;
+}
+
+.status-chip {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.workflow-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.step-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.step-card.active {
+  border-color: #6366f1;
+  transform: translateY(-2px);
+}
+
+.step-card.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.step-card h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 1.25rem;
+}
+
+.step-card p {
+  margin: 0 0 18px;
+  color: #4b5563;
+}
+
+label {
+  display: block;
+  font-size: 0.92rem;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='file'],
+input[type='search'],
+input[type='url'],
+input,
+textarea {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-size: 0.98rem;
+  color: #111827;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 22px;
+  background: #4f46e5;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+button.secondary {
+  background: #eef2ff;
+  color: #312e81;
+}
+
+button.secondary:hover {
+  background: #e0e7ff;
+}
+
+.magic-link-panel {
+  margin: 14px 0;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+}
+
+.magic-link-panel a {
+  color: #3b82f6;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.inline-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.file-list {
+  margin: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.file-pill {
+  background: #eef2ff;
+  color: #4338ca;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+
+.result-card,
+.estimate-panel {
+  margin-top: 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 18px;
+  background: #f8fafc;
+}
+
+.result-card-large {
+  grid-column: span 2;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.badge.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.message-bar {
+  margin-top: 26px;
+  padding: 18px 24px;
+  border-radius: 20px;
+  background: #eef2ff;
+  color: #1e3a8a;
+  border: 1px solid #c7d2fe;
+}
+
+@media (max-width: 900px) {
+  .workflow-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-panel {
+    flex-direction: column;
+  }
+
+  .inline-inputs {
+    grid-template-columns: 1fr;
+  }
+}
